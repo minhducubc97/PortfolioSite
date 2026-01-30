@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     
     // Config
-    const particleCount = 60;
+    const particleCount = 100;
     const connectionDistance = 150;
     const mouseDistance = 200;
 
