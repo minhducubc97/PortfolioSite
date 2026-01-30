@@ -168,28 +168,87 @@
             <div class="section-header fade-in-on-scroll">
                 <h2>Projects<span class="accent">.</span></h2>
             </div>
-            <div class="project-grid">
+            <div class="project-filters fade-in-on-scroll">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web & Games</button>
+                <button class="filter-btn" data-filter="ai">AI & ML</button>
+                <button class="filter-btn" data-filter="leadership">Leadership</button>
+            </div>
 
+            <div class="project-grid">
                 <!-- Amazon Hackathon -->
-                <div class="project-card card fade-in-on-scroll">
+                <div class="project-card card fade-in-on-scroll locked" data-category="leadership">
+                    <div class="nda-badge">Internal</div>
                     <div class="card-header">
                         <i class="fa-solid fa-code-branch"></i>
                         <div class="links">
                             <!-- Internal project, no link -->
-                            <span title="Internal Project" style="cursor: not-allowed; opacity: 0.5;"><i class="fa-solid fa-lock"></i></span>
+                            <span title="Internal Project"><i class="fa-solid fa-lock"></i></span>
                         </div>
                     </div>
                     <h3>Amazon Hackathon</h3>
                     <p>Led a team to build an app that automatically recommends code reviewers. Ranked <strong>3rd place</strong> in the hackathon.</p>
                     <div class="tags">
+                        <span>Team Lead</span>
                         <span>Productivity</span>
                         <span>Hackathon</span>
                         <span>2023</span>
                     </div>
                 </div>
 
+                <!-- Food Guessr -->
+                <div class="project-card card fade-in-on-scroll" data-category="web">
+                    <div class="card-header">
+                        <i class="fa-solid fa-utensils"></i>
+                        <div class="links">
+                            <a href="https://minhducubc97.github.io/Food-Guessr/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                    <h3>Food Guessr</h3>
+                    <p>Interactive game testing your culinary knowledge. Built with modern web technologies.</p>
+                    <div class="tags">
+                        <span>React</span>
+                        <span>Tailwind</span>
+                        <span>Game</span>
+                    </div>
+                </div>
+
+                <!-- Thanh Ngu App -->
+                <div class="project-card card fade-in-on-scroll" data-category="web">
+                    <div class="card-header">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <div class="links">
+                            <a href="https://minhducubc97.github.io/Thanh-Ngu-App/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                    <h3>Thanh Ngu Word Game</h3>
+                    <p>A fun Vietnamese idiom guessing game. Features real-time database integration.</p>
+                    <div class="tags">
+                        <span>JavaScript</span>
+                        <span>Firebase</span>
+                        <span>Game</span>
+                    </div>
+                </div>
+
+                <!-- Skin Cancer Detection -->
+                <div class="project-card card fade-in-on-scroll" data-category="ai">
+                    <div class="card-header">
+                        <i class="fa-solid fa-microscope"></i>
+                        <div class="links">
+                            <a href="https://github.com/minhducubc97/Skin-cancer-detection" target="_blank"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <h3>Skin Cancer Classification</h3>
+                    <p>Customized Deep Learning model to classify malignant/benign skin moles with <strong>81.5% accuracy</strong>, 81.2% sensitivity, and 81.8% specificity.</p>
+                    <div class="tags">
+                        <span>Deep Learning</span>
+                        <span>Medical AI</span>
+                        <span>2019</span>
+                    </div>
+                </div>
+
                 <!-- Covid Dashboard -->
-                <div class="project-card card fade-in-on-scroll">
+                <div class="project-card card fade-in-on-scroll" data-category="web">
                     <div class="card-header">
                         <i class="fa-solid fa-chart-pie"></i>
                         <div class="links">
@@ -204,14 +263,15 @@
                         <span>2021</span>
                     </div>
                 </div>
-
+                
                 <!-- Pedestrian Analytics -->
-                 <div class="project-card card fade-in-on-scroll">
+                 <div class="project-card card fade-in-on-scroll locked" data-category="ai">
+                    <div class="nda-badge">NDA</div>
                     <div class="card-header">
                         <i class="fa-solid fa-users-viewfinder"></i>
                         <div class="links">
                              <!-- NDA, no link -->
-                             <span title="NDA Protected" style="cursor: not-allowed; opacity: 0.5;"><i class="fa-solid fa-lock"></i></span>
+                             <span title="NDA Protected"><i class="fa-solid fa-lock"></i></span>
                         </div>
                     </div>
                     <h3>Pedestrian Analytics</h3>
@@ -220,22 +280,6 @@
                         <span>Deep Learning</span>
                         <span>Computer Vision</span>
                         <span>2020</span>
-                    </div>
-                </div>
-
-                <!-- Skin Cancer Detection -->
-                <div class="project-card card fade-in-on-scroll">
-                    <div class="card-header">
-                        <i class="fa-solid fa-microscope"></i>
-                        <div class="links">
-                            <a href="https://github.com/minhducubc97/Skin-cancer-detection" target="_blank"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3>Skin Cancer Classification</h3>
-                    <p>Customized Deep Learning model to classify malignant/benign skin moles with <strong>81.5% accuracy</strong>, 81.2% sensitivity, and 81.8% specificity.</p>
-                    <div class="tags">
-                        <span>Deep Learning</span>
-                        <span>2019</span>
                     </div>
                 </div>
             </div>
