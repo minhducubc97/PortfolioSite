@@ -173,4 +173,173 @@ document.addEventListener('DOMContentLoaded', () => {
         hamburger.classList.remove("active");
         navMenu.classList.remove("active");
     }));
+
+    // --- The Event Horizon (Gravity Sim) ---
+    const gravityCanvas = document.getElementById('gravity-canvas');
+    if (gravityCanvas) {
+        const gCtx = gravityCanvas.getContext('2d');
+        let gWidth, gHeight;
+        let orbiters = [];
+        let blackHole = { x: 0, y: 0, mass: 2000, radius: 20 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let dragCurrent = { x: 0, y: 0 };
+
+        function resizeGravity() {
+            gWidth = gravityCanvas.width = gravityCanvas.offsetWidth;
+            gHeight = gravityCanvas.height = gravityCanvas.offsetHeight;
+            blackHole.x = gWidth / 2;
+            blackHole.y = gHeight / 2;
+            // Adjust mass based on screen size for playability
+            blackHole.mass = (gWidth * gHeight) / 500; 
+        }
+
+        window.addEventListener('resize', resizeGravity);
+        resizeGravity();
+
+        class Orbiter {
+            constructor(x, y, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.radius = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? '#64ffda' : '#bd34fe'; // Cyan or Purple
+                this.history = [];
+                this.maxHistory = 20;
+            }
+
+            update() {
+                // F = G * (m1 * m2) / r^2
+                // We'll simplify G*m2 to just blackHole.mass
+                
+                const dx = blackHole.x - this.x;
+                const dy = blackHole.y - this.y;
+                const distSq = dx*dx + dy*dy;
+                const dist = Math.sqrt(distSq);
+
+                // Event Horizon (Collision)
+                if (dist < blackHole.radius) {
+                    return false; // Dead
+                }
+
+                // Gravity force
+                const force = blackHole.mass / distSq;
+                const ax = force * (dx / dist);
+                const ay = force * (dy / dist);
+
+                this.vx += ax;
+                this.vy += ay;
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Trail
+                this.history.push({x: this.x, y: this.y});
+                if (this.history.length > this.maxHistory) {
+                    this.history.shift();
+                }
+
+                // Escape velocity check (too far)
+                if (this.x < -1000 || this.x > gWidth + 1000 || this.y < -1000 || this.y > gHeight + 1000) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            draw() {
+                // Draw trail
+                gCtx.beginPath();
+                for (let i = 0; i < this.history.length; i++) {
+                    const point = this.history[i];
+                    if (i === 0) gCtx.moveTo(point.x, point.y);
+                    else gCtx.lineTo(point.x, point.y);
+                }
+                gCtx.strokeStyle = this.color;
+                gCtx.lineWidth = 0.5;
+                gCtx.stroke();
+
+                // Draw head
+                gCtx.beginPath();
+                gCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                gCtx.fillStyle = '#fff';
+                gCtx.fill();
+            }
+        }
+
+        // Interaction
+        gravityCanvas.addEventListener('mousedown', (e) => {
+            const rect = gravityCanvas.getBoundingClientRect();
+            isDragging = true;
+            dragStart = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+            dragCurrent = { ...dragStart };
+        });
+
+        gravityCanvas.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const rect = gravityCanvas.getBoundingClientRect();
+            dragCurrent = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        });
+
+        window.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Launch!
+            // Velocity is proportional to drag distance (slingshot)
+            // Reverse direction: Drag BACK to shoot FORWARD
+            const vx = (dragStart.x - dragCurrent.x) * 0.1;
+            const vy = (dragStart.y - dragCurrent.y) * 0.1;
+
+            orbiters.push(new Orbiter(dragStart.x, dragStart.y, vx, vy));
+        });
+
+        function animateGravity() {
+            gCtx.fillStyle = 'rgba(10, 15, 28, 0.2)'; // Trails effect (fading background)
+            gCtx.fillRect(0, 0, gWidth, gHeight);
+
+            // Draw Black Hole
+            gCtx.beginPath();
+            gCtx.arc(blackHole.x, blackHole.y, blackHole.radius, 0, Math.PI * 2);
+            gCtx.fillStyle = '#000';
+            gCtx.fill();
+            gCtx.strokeStyle = 'rgba(100, 255, 218, 0.5)'; // Accretion disk glow
+            gCtx.lineWidth = 2;
+            gCtx.stroke();
+
+            // Draw Drag Line
+            if (isDragging) {
+                gCtx.beginPath();
+                gCtx.moveTo(dragStart.x, dragStart.y);
+                gCtx.lineTo(dragCurrent.x, dragCurrent.y);
+                gCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                gCtx.setLineDash([5, 5]);
+                gCtx.stroke();
+                gCtx.setLineDash([]);
+                
+                // Trajectory Preview (optional, maybe keep simple for mystery)
+            }
+
+            // Update Orbiters
+            for (let i = orbiters.length - 1; i >= 0; i--) {
+                const alive = orbiters[i].update();
+                if (alive) {
+                    orbiters[i].draw();
+                } else {
+                    orbiters.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateGravity);
+        }
+
+        animateGravity();
+    }
 });

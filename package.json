@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-site",
+  "version": "1.0.0",
+  "description": "Duc Nguyen's Portfolio",
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
